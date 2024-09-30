@@ -1,0 +1,76 @@
+body {
+    font-family: sans-serif;
+}
+
+.flexContainer {
+    display: flex;
+    gap: 14rem;
+    margin-top: 10rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 3s ease-in-out, opacity 3s ease-in-out; /* Duración de 3 segundos */
+}
+
+.flex-left, .flex-right {
+    width: 50%;
+}
+
+/* Retraso en la aparición del texto */
+.flex-left {
+    padding-left: 12rem;
+    transition-delay: 0.5s; /* Añadir retraso para la izquierda */
+}
+
+.flex-right {
+    padding-right: 12rem;
+    transition-delay: 0.7s; /* Añadir más retraso para la derecha */
+}
+
+.furniture-container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px); /* Empieza desplazado ligeramente hacia abajo */
+    transition: transform 3s ease-in-out, opacity 3s ease-in-out; /* Duración de 3 segundos */
+}
+
+/* ID 1 visible */
+.furniture-container.first-active {
+    transform: translateY(0); /* Vuelve a la posición original */
+    opacity: 1; /* Se hace visible */
+}
+
+/* ID 1 desaparece hacia arriba */
+.furniture-container.first-exit {
+    transform: translateY(-50%); /* Desaparece hacia arriba */
+    opacity: 0; /* Se desvanece */
+    transition: transform 3s ease-in-out, opacity 3s ease-in-out; /* Duración total de 3 segundos */
+}
+
+/* ID 2 aparece desde abajo */
+.furniture-container.second-active {
+    transform: translateY(100%);
+    opacity: 1;
+    animation: slide-up 3s ease-in-out forwards; /* Duración de 3 segundos */
+}
+
+/* ID 2 se desplaza hacia arriba y aparece */
+@keyframes slide-up {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Para el texto */
+.first-active .flexContainer,
+.second-active .flexContainer {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.3s; /* Añadir retraso para el contenido */
+}

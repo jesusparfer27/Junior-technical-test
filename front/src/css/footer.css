@@ -1,0 +1,68 @@
+.line-footer {
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.5); /* Línea gris con transparencia */
+    height: 3px;
+    position: relative;
+    margin-bottom: 1rem; /* Espacio entre la línea y los botones */
+    z-index: 1;
+}
+
+.flex-footer {
+    display: flex;
+    justify-content: flex-start; /* Alineación al inicio */
+    gap: 12rem; /* Espacio entre los botones */
+    padding: 1rem 0; /* Espaciado alrededor de los botones */
+    position: relative;
+    padding-left: 10rem;
+}
+
+.footer-button {
+    position: relative; /* Posicionar el div de fondo respecto al botón */
+    z-index: 1; /* Asegúrate de que los botones estén por encima de la animación */
+    background: none; /* Sin fondo por defecto */
+    border: none; /* Sin borde */
+    padding: 1rem; /* Espaciado dentro del botón */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+}
+
+/* Div de animación */
+.animation-div1, .animation-div-2 {
+    position: absolute;
+    height: 10px; /* Altura del div de animación */
+    background-color: black; /* Color negro */
+    transition: transform 0.3s ease; /* Transición suave para el movimiento */
+    z-index: 2; /* Asegúrate de que estos divs están por encima de la línea */
+}
+
+/* Establecer posición inicial de los divs de animación */
+.animation-div1 {
+    left: 0; /* Comienza en el extremo izquierdo */
+}
+
+.animation-div-2 {
+    left: 0; /* Comienza en el extremo izquierdo */
+}
+
+/* Cuando el botón está en hover, mover el div de animación */
+.footer-button:hover ~ .line-footer .animation-div1 {
+    transform: translateX(calc(100% + 1rem)); /* Mueve la animación a la derecha por el ancho del botón */
+}
+
+.footer-button:hover ~ .line-footer .animation-div-2 {
+    transform: translateX(calc(100% + 1rem)); /* Mueve la animación a la derecha por el ancho del botón */
+}
+
+.flex-button {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-number {
+    text-align: start;
+}
+
+.flex-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: gray;
+}
