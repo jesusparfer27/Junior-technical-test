@@ -7,8 +7,10 @@ import '../css/furniture.scroll.css';
 export const FurnitureScroll = () => {
     const [furniture, setFurniture] = useState([]);
     const { furnitureByViewport, setFurnitureByViewport } = useIterativeContext();
-    const { VITE_API } = import.meta.env;
-    const { VITE_MONGO_ENDPOINT } = import.meta.env
+    const { VITE_API, VITE_MONGO_ENDPOINT } = import.meta.env;
+
+    // Estado para manejar la transición de recogida
+    const [isExiting, setIsExiting] = useState(false);
 
     useEffect(() => {
         getData();
@@ -22,7 +24,6 @@ export const FurnitureScroll = () => {
                     "Content-Type": "application/json"
                 }
             });
-
             const data = await response.json();
             if (response.ok) {
                 setFurniture(data);
@@ -57,28 +58,27 @@ export const FurnitureScroll = () => {
 
     const handleViewportChange = (newViewport) => {
         if (newViewport !== furnitureByViewport) {
-            // Se está saliendo del viewport actual
-            setFurnitureByViewport("exit");
+            // Iniciar la animación de recogida
+            setIsExiting(true);
 
-            // Después de la animación de salida, cambia al nuevo viewport
             setTimeout(() => {
                 setFurnitureByViewport(newViewport);
-            }, 2000); // Espera 2 segundos para la animación de salida
+                setIsExiting(false); // Restablecer estado después de cambiar
+            }, 1900); // Este tiempo debe coincidir con la duración de la animación
         }
     };
 
     return (
         <>
             <Header />
-            <div className={`furniture-container ${furnitureByViewport === "first" ? "first-active" : "first-exit"}`}>
+            <div className={`furniture-container ${furnitureByViewport === "first" ? (isExiting ? "first-exit" : "first-active") : "first-exit"}`}>
                 {furnitureByViewport === "first" && renderFurniture(0)}
             </div>
-
-            <div className={`furniture-container ${furnitureByViewport === "second" ? "second-active" : "first-exit"}`}>
+            <div className={`furniture-container ${furnitureByViewport === "second" ? (isExiting ? "second-exit" : "second-active") : "second-exit"}`}>
                 {furnitureByViewport === "second" && renderFurniture(1)}
             </div>
-
-            <Footer />
+            <button className="fixed-button">Product details</button>
+            <Footer onViewportChange={handleViewportChange} />
         </>
     );
 };

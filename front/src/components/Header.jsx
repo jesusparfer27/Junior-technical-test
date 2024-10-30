@@ -8,8 +8,8 @@ const Header = () => {
     const [animateNavList, setAnimateNavList] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [showSubMenu, setShowSubMenu] = useState(false);
-    const [hoverNav, setHoverNav] = useState(false);
     const [hoverElement1, setHoverElement1] = useState(false);
+    const [transformElement1, setTransformElement1] = useState(false);
 
     const { VITE_API, VITE_MONGO_ENDPOINT, VITE_ENDPOINT_HEADER_IMAGE } = import.meta.env;
 
@@ -43,7 +43,10 @@ const Header = () => {
             setTimeout(() => {
                 setIsOpen(false);
                 setAnimateNavList(false);
+                setShowSubMenu(false);
+                setShowImage(false);
                 setIsClosing(false);
+                setTransformElement1(false);
             }, 500);
         } else {
             setIsOpen(true);
@@ -58,71 +61,62 @@ const Header = () => {
         }
     }, [isOpen]);
 
-    const handleMouseEnterSubElement = () => {
-        setShowImage(true);
-        setShowSubMenu(true);
-    };
-
-    const handleMouseLeaveSubElement = () => {
+    const handleClickElement1 = () => {
+        setShowSubMenu(prev => !prev);
         setShowImage(false);
-        setTimeout(() => {
-            setShowSubMenu(false);
-        }, 300);
-    };
-
-    const handleMouseEnterNav = () => {
-        setHoverNav(true);
-    };
-
-    const handleMouseLeaveNav = () => {
-        setHoverNav(false);
+        setTransformElement1(prev => !prev);
     };
 
     const handleMouseEnterElement1 = () => {
         setHoverElement1(true);
+        setShowSubMenu(true);
     };
 
     const handleMouseLeaveElement1 = () => {
         setHoverElement1(false);
     };
 
+    const handleMouseEnterSubElement = () => {
+        setShowImage(true);
+    };
+
+    const handleMouseLeaveSubElement = () => {
+        setShowImage(false);
+    };
+
     return (
-        <header>
+        <header className='headerMenu'>
             <div className="headerFlex">
-                <h2 className={`headerLogo ${isOpen || hoverNav ? 'white' : ''}`}>Logo</h2>
-                <button className="toggleButton" onClick={toggleMenu}>
+                <h2 className={`headerLogo ${isOpen ? 'white' : ''}`}>Master</h2>
+                <button
+                    className={`toggleButton ${isOpen ? 'active' : ''}`}
+                    onClick={toggleMenu}
+                >
                     {isOpen ? 'Cerrar' : 'Abrir'}
                 </button>
             </div>
-            <div
-                className={`navContainer ${isOpen ? 'open' : ''}`}
-                onMouseEnter={handleMouseEnterNav}
-                onMouseLeave={handleMouseLeaveNav}
-            >
+            <div className={`navContainer ${isOpen ? 'open' : ''}`}>
                 <div className="navContent">
                     <nav className="nav">
                         <ul className={`navList ${animateNavList ? 'show' : ''} ${isClosing ? 'close' : ''}`}>
-                            <li 
-                                onMouseEnter={handleMouseEnterElement1} 
-                                onMouseLeave={handleMouseLeaveElement1}
-                            >
-                                Elemento 1
-                                <ul className={`submenu ${showSubMenu ? 'show' : ''} ${hoverElement1 ? '' : 'close'}`}>
-                                    <li
-                                        onMouseEnter={handleMouseEnterSubElement}
-                                        onMouseLeave={handleMouseLeaveSubElement}
-                                    >
-                                        SubElemento 1.1
-                                    </li>
-                                    <li>SubElemento 1.2</li>
-                                    <li>SubElemento 1.3</li>
-                                </ul>
-                            </li>
-                            <li>Elemento 2</li>
-                            <li>Elemento 3</li>
-                            <li>Elemento 4</li>
+                            {['Collection', 'Design', 'Craftmanship', 'Ethics'].map((element, index) => (
+                                <li 
+                                    key={index}
+                                    onClick={element === 'Collection' ? handleClickElement1 : undefined}
+                                    className={element === 'Collection' && transformElement1 ? 'transform' : ''}
+                                    style={{ animationDelay: `${index * 100}ms` }} // Retraso en la animación
+                                >
+                                    {element}
+                                    {element === 'Collection' && (
+                                        <ul className={`submenu ${showSubMenu ? 'show' : 'hide'}`}>
+                                            <li onMouseEnter={handleMouseEnterSubElement} onMouseLeave={handleMouseLeaveSubElement}>Furniture</li>
+                                            <li>Lighting</li>
+                                            <li>Accesories</li>
+                                        </ul>
+                                    )}
+                                </li>
+                            ))}
                         </ul>
-
                         <ul className={`footerNav ${animateNavList ? 'show' : ''} ${isClosing ? 'close' : ''}`}>
                             <li>About</li>
                             <li>Contact</li>

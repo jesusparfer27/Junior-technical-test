@@ -13,12 +13,38 @@ body {
 
 .flex-left, .flex-right {
     width: 50%;
+
 }
 
 /* Retraso en la aparición del texto */
-.flex-left {
+.flex-left{
     padding-left: 12rem;
     transition-delay: 0.5s; /* Añadir retraso para la izquierda */
+}
+
+.fixed-button {
+    bottom: 2rem;
+    position: absolute;
+    padding: 1rem 2rem;
+    background-color: black;
+    margin-left: 12rem;
+    color: #fff;
+    border: none;
+    transform: translateY(-400px);
+    cursor: pointer;
+    z-index: 10; /* Asegura que esté por encima de otros elementos en .flex-left */
+    transition: background-color 0.3s ease;
+    border: 1px solid black;
+}
+
+.fixed-button.no-transition {
+    transition: none; /* Evita todas las transiciones */
+}
+
+.fixed-button:hover {
+    background-color: transparent;
+    border: 1px solid black;
+    color: black;
 }
 
 .flex-right {
@@ -33,6 +59,7 @@ body {
     opacity: 0;
     transform: translateY(20px); /* Empieza desplazado ligeramente hacia abajo */
     transition: transform 3s ease-in-out, opacity 3s ease-in-out; /* Duración de 3 segundos */
+    margin-bottom: 2.5rem;
 }
 
 /* ID 1 visible */
@@ -43,28 +70,20 @@ body {
 
 /* ID 1 desaparece hacia arriba */
 .furniture-container.first-exit {
-    transform: translateY(-50%); /* Desaparece hacia arriba */
+    transform: translateY(-100%); /* Desaparece hacia arriba */
     opacity: 0; /* Se desvanece */
-    transition: transform 3s ease-in-out, opacity 3s ease-in-out; /* Duración total de 3 segundos */
 }
 
-/* ID 2 aparece desde abajo */
+/* ID 2 visible */
 .furniture-container.second-active {
-    transform: translateY(100%);
-    opacity: 1;
-    animation: slide-up 3s ease-in-out forwards; /* Duración de 3 segundos */
+    transform: translateY(0); /* Vuelve a la posición original */
+    opacity: 1; /* Se hace visible */
 }
 
-/* ID 2 se desplaza hacia arriba y aparece */
-@keyframes slide-up {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+/* ID 2 desaparece hacia abajo */
+.furniture-container.second-exit {
+    transform: translateY(100%); /* Desaparece hacia abajo */
+    opacity: 0; /* Se desvanece */
 }
 
 /* Para el texto */
